@@ -40,21 +40,23 @@ export default function ChatInput({
         <div className="relative aura-glow">
           <form 
             onSubmit={handleSubmit} 
-            className="flex items-center gap-2 bg-black/20 backdrop-blur-sm rounded-xl p-2 border border-primary/20"
+            className="flex items-center gap-2 bg-black/30 backdrop-blur-md rounded-xl p-3 border border-primary/20"
           >
+            <div className="absolute -left-1 -right-1 -top-1 -bottom-1 bg-black/10 blur-md rounded-xl z-[-1]"></div>
             <Input
               type="text"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Ask AuraAi anything..."
-              className="flex-1 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground/70"
+              className="flex-1 bg-transparent border-0 focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground/60 text-white/90 shadow-none h-10"
               disabled={isLoading}
+              autoComplete="off"
             />
             <Button 
               type="submit" 
               size="icon"
               disabled={isLoading || !message.trim()}
-              className="rounded-xl bg-primary/90 hover:bg-primary text-background hover:text-background transition-colors"
+              className="rounded-xl bg-primary/90 hover:bg-primary text-background hover:text-background transition-colors h-10 w-10 shadow-lg shadow-primary/20"
             >
               <Send className="h-4 w-4" />
               <span className="sr-only">Send</span>

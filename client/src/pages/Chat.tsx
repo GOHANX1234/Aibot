@@ -24,7 +24,7 @@ export default function Chat() {
     switchSession,
     deleteSession,
     getAllSessions
-  } = useChat(AI_MODELS.X1);
+  } = useChat(AI_MODELS.X3);
   
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
@@ -69,12 +69,15 @@ export default function Chat() {
       />
       
       {/* Header */}
-      <header className="mobile-header sticky top-0 z-30 p-3 flex items-center">
-        <div className="ml-10 flex items-center space-x-3">
-          <div className="flex h-8 w-8 shrink-0 select-none items-center justify-center rounded-full bg-gradient-to-br from-indigo-600 to-violet-800">
-            <Sparkles className="h-4 w-4 text-white" />
+      <header className="mobile-header sticky top-0 z-30 py-3 px-4 flex items-center">
+        <div className="ml-8 flex items-center space-x-3">
+          <div className="relative group">
+            <div className="absolute inset-0 rounded-full blur-md bg-primary/30 group-hover:bg-primary/40 transition-colors"></div>
+            <div className="relative flex h-8 w-8 shrink-0 select-none items-center justify-center rounded-full bg-gradient-to-br from-indigo-600 via-purple-600 to-violet-800 border border-primary/30">
+              <Sparkles className="h-4 w-4 text-white" />
+            </div>
           </div>
-          <h1 className="text-lg font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-300">
+          <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-primary to-purple-300">
             AuraAi
           </h1>
         </div>
@@ -85,33 +88,64 @@ export default function Chat() {
         <div className="max-w-2xl mx-auto pt-4 pb-20 space-y-4">
           {/* Welcome Message */}
           {messages.length === 0 && (
-            <div className="flex flex-col gap-4 items-center justify-center my-12 text-center">
-              <div className="h-16 w-16 rounded-full bg-gradient-to-br from-indigo-600 to-violet-800 flex items-center justify-center">
-                <Sparkles className="h-8 w-8 text-white" />
+            <div className="flex flex-col gap-6 items-center justify-center my-12 text-center">
+              <div className="relative">
+                <div className="absolute inset-0 rounded-full blur-xl bg-primary/20 animate-pulse"></div>
+                <div className="h-24 w-24 rounded-full bg-gradient-to-br from-indigo-600 via-purple-600 to-violet-800 flex items-center justify-center relative z-10 shadow-lg shadow-primary/20">
+                  <Sparkles className="h-12 w-12 text-white opacity-90" />
+                </div>
               </div>
-              <h2 className="text-xl font-bold text-white">Welcome to AuraAi</h2>
-              <p className="text-muted-foreground max-w-md">
-                Your space-themed AI assistant. Ask me anything or try one of these examples:
-              </p>
-              <div className="grid grid-cols-1 gap-2 mt-2 w-full max-w-md">
+              
+              <div>
+                <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-primary to-purple-300">
+                  Welcome to AuraAi
+                </h2>
+                <p className="text-muted-foreground/80 max-w-md mt-2 text-sm">
+                  How can I assist you today?
+                </p>
+              </div>
+              
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2 w-full max-w-xl">
                 <button 
-                  onClick={() => handleSendMessage("Tell me about black holes")}
-                  className="p-2 text-sm border border-primary/20 rounded-lg bg-primary/5 hover:bg-primary/10 text-left"
+                  onClick={() => handleSendMessage("What can you help me with?")}
+                  className="p-3 text-sm border border-primary/20 rounded-lg bg-black/40 hover:bg-primary/10 hover:border-primary/50 text-left transition-all group flex items-center"
                 >
-                  "Tell me about black holes"
+                  <span className="bg-primary/20 rounded-full p-1.5 mr-2 group-hover:bg-primary/30 transition-colors">
+                    <Sparkles className="h-4 w-4 text-primary/90" />
+                  </span>
+                  "What can you help me with?"
                 </button>
                 <button 
-                  onClick={() => handleSendMessage("Write a poem about the cosmos")}
-                  className="p-2 text-sm border border-primary/20 rounded-lg bg-primary/5 hover:bg-primary/10 text-left"
+                  onClick={() => handleSendMessage("Write me a short story")}
+                  className="p-3 text-sm border border-primary/20 rounded-lg bg-black/40 hover:bg-primary/10 hover:border-primary/50 text-left transition-all group flex items-center"
                 >
-                  "Write a poem about the cosmos"
+                  <span className="bg-primary/20 rounded-full p-1.5 mr-2 group-hover:bg-primary/30 transition-colors">
+                    <Sparkles className="h-4 w-4 text-primary/90" />
+                  </span>
+                  "Write me a short story"
                 </button>
                 <button 
-                  onClick={() => handleSendMessage("Create a simple Python function that calculates orbital velocity")}
-                  className="p-2 text-sm border border-primary/20 rounded-lg bg-primary/5 hover:bg-primary/10 text-left"
+                  onClick={() => handleSendMessage("Show me a JavaScript code example for fetching API data")}
+                  className="p-3 text-sm border border-primary/20 rounded-lg bg-black/40 hover:bg-primary/10 hover:border-primary/50 text-left transition-all group flex items-center"
                 >
-                  "Create a simple Python function that calculates orbital velocity"
+                  <span className="bg-primary/20 rounded-full p-1.5 mr-2 group-hover:bg-primary/30 transition-colors">
+                    <Sparkles className="h-4 w-4 text-primary/90" />
+                  </span>
+                  "Show me a JavaScript code example for fetching API data"
                 </button>
+                <button 
+                  onClick={() => handleSendMessage("What's the difference between X1, X2, and X3 models?")}
+                  className="p-3 text-sm border border-primary/20 rounded-lg bg-black/40 hover:bg-primary/10 hover:border-primary/50 text-left transition-all group flex items-center"
+                >
+                  <span className="bg-primary/20 rounded-full p-1.5 mr-2 group-hover:bg-primary/30 transition-colors">
+                    <Sparkles className="h-4 w-4 text-primary/90" />
+                  </span>
+                  "What's the difference between X1, X2, and X3 models?"
+                </button>
+              </div>
+              
+              <div className="mt-2 p-3 rounded-lg border border-primary/10 bg-black/20 text-xs text-primary-foreground/70">
+                Try different AI models using the selector below the input box!
               </div>
             </div>
           )}

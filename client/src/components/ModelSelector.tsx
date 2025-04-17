@@ -32,29 +32,38 @@ const modelInfo = {
 export default function ModelSelector({ selectedModel, onSelect, className = "" }: ModelSelectorProps) {
   return (
     <Select value={selectedModel} onValueChange={onSelect}>
-      <SelectTrigger className={`h-9 px-3 py-1 text-xs rounded-full border-primary/50 bg-background/80 hover:bg-primary/10 transition-colors ${className}`}>
-        <Sparkles className="h-3.5 w-3.5 mr-1.5 text-primary" />
+      <SelectTrigger className={`h-9 px-3 py-1 text-xs rounded-full border-primary/50 bg-black/50 hover:bg-primary/10 transition-colors shadow-lg shadow-primary/5 backdrop-blur-md ${className}`}>
+        <Sparkles className="h-3.5 w-3.5 mr-1.5 text-primary animate-pulse" />
         <SelectValue placeholder="Select Model">
-          {modelInfo[selectedModel as keyof typeof modelInfo]?.name || "Model"}
+          <span className="font-medium">{modelInfo[selectedModel as keyof typeof modelInfo]?.name || "Model"}</span>
         </SelectValue>
       </SelectTrigger>
-      <SelectContent className="bg-[#0D0F1E] border border-primary/20 text-sm">
-        <SelectItem value={AI_MODELS.X1} className="hover:bg-primary/10 cursor-pointer">
-          <div className="flex flex-col items-start">
-            <span className="font-semibold">Model X1</span>
-            <span className="text-xs text-muted-foreground">{modelInfo[AI_MODELS.X1].description}</span>
+      <SelectContent className="bg-[#0A0C1A] border border-primary/30 rounded-xl shadow-xl shadow-purple-900/20 backdrop-blur-xl p-1 text-sm">
+        <SelectItem value={AI_MODELS.X1} className="hover:bg-primary/10 cursor-pointer rounded-lg py-3 px-3 my-1 transition-colors">
+          <div className="flex flex-col items-start gap-1">
+            <div className="flex items-center">
+              <div className="w-2 h-2 rounded-full bg-blue-400 mr-2"></div>
+              <span className="font-semibold">Model X1</span>
+            </div>
+            <span className="text-xs text-muted-foreground/80">{modelInfo[AI_MODELS.X1].description}</span>
           </div>
         </SelectItem>
-        <SelectItem value={AI_MODELS.X2} className="hover:bg-primary/10 cursor-pointer">
-          <div className="flex flex-col items-start">
-            <span className="font-semibold">Model X2</span>
-            <span className="text-xs text-muted-foreground">{modelInfo[AI_MODELS.X2].description}</span>
+        <SelectItem value={AI_MODELS.X2} className="hover:bg-primary/10 cursor-pointer rounded-lg py-3 px-3 my-1 transition-colors">
+          <div className="flex flex-col items-start gap-1">
+            <div className="flex items-center">
+              <div className="w-2 h-2 rounded-full bg-purple-400 mr-2"></div>
+              <span className="font-semibold">Model X2</span>
+            </div>
+            <span className="text-xs text-muted-foreground/80">{modelInfo[AI_MODELS.X2].description}</span>
           </div>
         </SelectItem>
-        <SelectItem value={AI_MODELS.X3} className="hover:bg-primary/10 cursor-pointer">
-          <div className="flex flex-col items-start">
-            <span className="font-semibold">Model X3</span>
-            <span className="text-xs text-muted-foreground">{modelInfo[AI_MODELS.X3].description}</span>
+        <SelectItem value={AI_MODELS.X3} className="hover:bg-primary/10 cursor-pointer rounded-lg py-3 px-3 my-1 transition-colors">
+          <div className="flex flex-col items-start gap-1">
+            <div className="flex items-center">
+              <div className="w-2 h-2 rounded-full bg-violet-400 mr-2"></div>
+              <span className="font-semibold">Model X3</span>
+            </div>
+            <span className="text-xs text-muted-foreground/80">{modelInfo[AI_MODELS.X3].description}</span>
           </div>
         </SelectItem>
       </SelectContent>
