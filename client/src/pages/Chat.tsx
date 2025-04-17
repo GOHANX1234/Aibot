@@ -90,7 +90,16 @@ export default function Chat() {
           <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-primary to-purple-300">
             AuraAi
           </h1>
-          <span className="ml-4 text-sm text-primary/70">Developed by @Gohan52</span>
+          <a 
+            href="https://t.me/Gohan52" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="ml-4 text-sm text-primary hover:text-primary/90 transition-colors duration-200 flex items-center gap-1"
+          >
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
+              Developed by @Gohan52
+            </span>
+          </a>
         </div>
       </header>
 
