@@ -91,7 +91,7 @@ export default function ChatSidebar({
         <div className="flex flex-col h-full p-4">
           {/* Header */}
           <div className="flex items-center justify-between mb-6 pt-2">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-4 pl-2">
               <LayoutDashboard className="h-5 w-5 text-primary" />
               <h2 className="text-lg font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-300">
                 AuraAi Chats
