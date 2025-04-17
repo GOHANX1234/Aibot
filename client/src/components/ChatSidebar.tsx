@@ -66,7 +66,7 @@ export default function ChatSidebar({
         variant="ghost" 
         size="icon" 
         onClick={toggleSidebar}
-        className="fixed top-3 right-3 z-50 md:hidden bg-black/50 backdrop-blur-md border border-primary/40 shadow-lg shadow-black/50 hover:bg-primary/20"
+        className="fixed top-2 right-3 z-50 md:hidden bg-black/50 backdrop-blur-md border border-primary/40 shadow-lg shadow-black/50 hover:bg-primary/20"
       >
         <Menu className="h-5 w-5 text-primary" />
         <span className="sr-only">Toggle menu</span>
