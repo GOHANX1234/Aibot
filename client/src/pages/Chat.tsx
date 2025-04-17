@@ -1,22 +1,31 @@
 import { useState, useEffect, useRef } from "react";
-import { useQuery } from "@tanstack/react-query";
 import ChatMessage from "@/components/ChatMessage";
 import ChatInput from "@/components/ChatInput";
-import ModelSelector from "@/components/ModelSelector";
+import ChatSidebar from "@/components/ChatSidebar";
 import LoadingIndicator from "@/components/LoadingIndicator";
+import StarsBackground from "@/components/StarsBackground";
 import { useChat } from "@/hooks/useChat";
 import { AI_MODELS } from "@shared/schema";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useToast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
+import { Sparkles } from "lucide-react";
 
 export default function Chat() {
-  const [selectedModel, setSelectedModel] = useState<string>(AI_MODELS.X1);
   const { 
     messages, 
     isLoading, 
     sendMessage, 
-    error 
-  } = useChat(selectedModel);
+    error,
+    model,
+    changeModel,
+    activeSessionId,
+    createNewChat,
+    switchSession,
+    deleteSession,
+    getAllSessions
+  } = useChat(AI_MODELS.X1);
+  
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
@@ -48,42 +57,77 @@ export default function Chat() {
 
   return (
     <div className="flex flex-col h-screen">
+      {/* Background Elements */}
+      <StarsBackground />
+      
+      {/* Sidebar for Chat History */}
+      <ChatSidebar 
+        activeSessionId={activeSessionId}
+        onCreateNewChat={createNewChat}
+        onSwitchSession={switchSession}
+        onDeleteSession={deleteSession}
+      />
+      
       {/* Header */}
-      <header className="bg-white dark:bg-gray-800 shadow-sm">
-        <div className="max-w-5xl mx-auto p-4 flex justify-between items-center">
-          <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-light to-primary flex items-center justify-center text-white font-bold text-lg">
-              A
-            </div>
-            <h1 className="text-xl font-semibold">AuraAi</h1>
+      <header className="mobile-header sticky top-0 z-30 p-3 flex items-center">
+        <div className="ml-10 flex items-center space-x-3">
+          <div className="flex h-8 w-8 shrink-0 select-none items-center justify-center rounded-full bg-gradient-to-br from-indigo-600 to-violet-800">
+            <Sparkles className="h-4 w-4 text-white" />
           </div>
-          
-          <ModelSelector 
-            selectedModel={selectedModel} 
-            onSelect={setSelectedModel} 
-          />
+          <h1 className="text-lg font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary to-purple-300">
+            AuraAi
+          </h1>
         </div>
       </header>
 
       {/* Main Chat Area */}
-      <ScrollArea className="flex-1 p-4 md:p-6 max-w-5xl mx-auto w-full">
-        <div className="space-y-4">
+      <ScrollArea className="flex-1 pb-32 px-4 w-full relative z-10">
+        <div className="max-w-2xl mx-auto pt-4 pb-20 space-y-4">
           {/* Welcome Message */}
           {messages.length === 0 && (
-            <ChatMessage 
-              content="Hello! I'm AuraAi, your AI assistant. How can I help you today?" 
-              isUser={false} 
-            />
+            <div className="flex flex-col gap-4 items-center justify-center my-12 text-center">
+              <div className="h-16 w-16 rounded-full bg-gradient-to-br from-indigo-600 to-violet-800 flex items-center justify-center">
+                <Sparkles className="h-8 w-8 text-white" />
+              </div>
+              <h2 className="text-xl font-bold text-white">Welcome to AuraAi</h2>
+              <p className="text-muted-foreground max-w-md">
+                Your space-themed AI assistant. Ask me anything or try one of these examples:
+              </p>
+              <div className="grid grid-cols-1 gap-2 mt-2 w-full max-w-md">
+                <button 
+                  onClick={() => handleSendMessage("Tell me about black holes")}
+                  className="p-2 text-sm border border-primary/20 rounded-lg bg-primary/5 hover:bg-primary/10 text-left"
+                >
+                  "Tell me about black holes"
+                </button>
+                <button 
+                  onClick={() => handleSendMessage("Write a poem about the cosmos")}
+                  className="p-2 text-sm border border-primary/20 rounded-lg bg-primary/5 hover:bg-primary/10 text-left"
+                >
+                  "Write a poem about the cosmos"
+                </button>
+                <button 
+                  onClick={() => handleSendMessage("Create a simple Python function that calculates orbital velocity")}
+                  className="p-2 text-sm border border-primary/20 rounded-lg bg-primary/5 hover:bg-primary/10 text-left"
+                >
+                  "Create a simple Python function that calculates orbital velocity"
+                </button>
+              </div>
+            </div>
           )}
 
           {/* Chat Messages */}
-          {messages.map((msg, index) => (
-            <ChatMessage 
-              key={index} 
-              content={msg.content} 
-              isUser={msg.isUser} 
-            />
-          ))}
+          {messages.length > 0 && (
+            <div className="space-y-6">
+              {messages.map((msg, index) => (
+                <ChatMessage 
+                  key={index} 
+                  content={msg.content} 
+                  isUser={msg.isUser} 
+                />
+              ))}
+            </div>
+          )}
 
           {/* Loading Indicator */}
           {isLoading && <LoadingIndicator />}
@@ -93,11 +137,14 @@ export default function Chat() {
       </ScrollArea>
 
       {/* Message Input */}
-      <footer className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 py-3 px-4">
-        <div className="max-w-5xl mx-auto">
-          <ChatInput onSendMessage={handleSendMessage} isLoading={isLoading} />
-        </div>
-      </footer>
+      <div className="fixed bottom-0 left-0 right-0 p-4 pb-6 bg-gradient-to-t from-[#050714] via-[#050714] to-transparent z-20">
+        <ChatInput 
+          onSendMessage={handleSendMessage} 
+          isLoading={isLoading} 
+          selectedModel={model}
+          onSelectModel={changeModel}
+        />
+      </div>
     </div>
   );
 }

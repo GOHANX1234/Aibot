@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Copy, Check } from "lucide-react";
+import { Copy, Check, Bot, User } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 type ChatMessageProps = {
   content: string;
@@ -67,22 +68,35 @@ function CodeBlock({ content, language }: { content: string; language?: string }
   };
   
   return (
-    <div className="relative rounded bg-gray-900 text-gray-100 font-mono text-sm my-2 overflow-hidden">
+    <div className="relative rounded-lg bg-black/40 text-gray-100 font-mono text-sm my-3 overflow-hidden border border-primary/20">
       {language && (
-        <div className="bg-gray-800 text-gray-400 px-4 py-1 text-xs">{language}</div>
+        <div className="bg-primary/20 text-primary-foreground px-4 py-1 text-xs font-semibold flex justify-between">
+          <span>{language}</span>
+          <Button 
+            size="sm" 
+            variant="ghost" 
+            className="text-primary-foreground hover:text-white hover:bg-primary/30 h-5 w-5 p-0"
+            onClick={handleCopy}
+          >
+            {copied ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
+            <span className="sr-only">Copy code</span>
+          </Button>
+        </div>
       )}
       <div className="p-4 overflow-x-auto whitespace-pre">
         {content}
       </div>
-      <Button 
-        size="sm" 
-        variant="ghost" 
-        className="absolute right-2 top-2 text-gray-400 hover:text-white bg-gray-800 hover:bg-gray-700 h-7 w-7 p-0"
-        onClick={handleCopy}
-      >
-        {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
-        <span className="sr-only">Copy code</span>
-      </Button>
+      {!language && (
+        <Button 
+          size="sm" 
+          variant="ghost" 
+          className="absolute right-2 top-2 text-primary-foreground hover:text-white bg-primary/20 hover:bg-primary/30 h-6 w-6 p-0"
+          onClick={handleCopy}
+        >
+          {copied ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
+          <span className="sr-only">Copy code</span>
+        </Button>
+      )}
     </div>
   );
 }
@@ -91,26 +105,41 @@ export default function ChatMessage({ content, isUser }: ChatMessageProps) {
   const messageParts = processMessageContent(content);
   
   return (
-    <div className={`flex items-start ${isUser ? 'justify-end' : ''}`}>
-      {!isUser && (
-        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-light to-primary flex items-center justify-center text-white font-bold text-sm mr-2 mt-1 flex-shrink-0">
-          A
-        </div>
-      )}
-      <div 
-        className={`${
-          isUser 
-            ? 'bg-primary text-white rounded-lg rounded-tr-none' 
-            : 'bg-white dark:bg-gray-800 rounded-lg rounded-tl-none'
-        } p-3 shadow-sm max-w-[85%]`}
-      >
-        {messageParts.map((part, index) => (
-          part.type === 'text' ? (
-            <p key={index} className="text-sm">{part.content}</p>
+    <div className={cn(
+      "flex w-full mb-4 animate-in fade-in-0 slide-in-from-bottom-4 duration-300",
+      isUser ? "justify-end" : "justify-start"
+    )}>
+      <div className={cn(
+        "flex max-w-[85%] items-start gap-3",
+        isUser ? "flex-row-reverse" : "flex-row"
+      )}>
+        <div className={cn(
+          "flex h-8 w-8 shrink-0 select-none items-center justify-center rounded-full",
+          isUser ? "bg-gradient-to-br from-purple-500 to-indigo-700" : "bg-gradient-to-br from-indigo-600 to-violet-800"
+        )}>
+          {isUser ? (
+            <User className="h-4 w-4 text-white" />
           ) : (
-            <CodeBlock key={index} content={part.content} language={part.language} />
-          )
-        ))}
+            <Bot className="h-4 w-4 text-white" />
+          )}
+        </div>
+        
+        <div className={cn(
+          "rounded-lg px-4 py-3 shadow-md",
+          isUser 
+            ? "user-message-gradient text-white rounded-tr-none" 
+            : "ai-message-gradient text-gray-100 rounded-tl-none"
+        )}>
+          {messageParts.map((part, index) => (
+            part.type === 'text' ? (
+              <div key={index} className="text-sm leading-relaxed whitespace-pre-wrap break-words">
+                {part.content}
+              </div>
+            ) : (
+              <CodeBlock key={index} content={part.content} language={part.language} />
+            )
+          ))}
+        </div>
       </div>
     </div>
   );
