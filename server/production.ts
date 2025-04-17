@@ -13,8 +13,21 @@ async function startServer() {
   // Register API routes
   await registerRoutes(app);
 
-  // Serve static files from the frontend build directory
-  app.use(express.static(path.join(__dirname, '../public')));
+  // Serve static files from the frontend build directory with caching
+  app.use(express.static(path.join(__dirname, '../public'), {
+    etag: true,
+    lastModified: true,
+    setHeaders: (res, path) => {
+      // Set cache control for different file types
+      if (path.endsWith('.html')) {
+        // HTML files - no cache
+        res.setHeader('Cache-Control', 'no-cache');
+      } else if (path.match(/\.(js|css|svg|png|jpg|jpeg|gif|ico)$/)) {
+        // Static assets - cache for 1 week
+        res.setHeader('Cache-Control', 'public, max-age=604800');
+      }
+    }
+  }));
   
   // For any other request, send the index.html
   app.get('*', (req: Request, res: Response) => {

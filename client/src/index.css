@@ -132,6 +132,8 @@
     transition: transform 0.3s ease-in-out;
     border-right: 1px solid rgba(101, 63, 255, 0.2);
     backdrop-filter: blur(12px);
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.5);
+    overflow-y: auto;
   }
   
   .hamburger-menu.open {
