@@ -55,6 +55,16 @@ export default function Chat() {
     }
   };
 
+  // Handle delete session with confirmation and UI update
+  const handleDeleteSession = (sessionId: string) => {
+    deleteSession(sessionId);
+    // Refresh UI state immediately after deletion
+    const allSessions = getAllSessions();
+    if (allSessions.length === 0) {
+      createNewChat();
+    }
+  };
+
   return (
     <div className="flex flex-col h-screen">
       {/* Background Elements */}
@@ -65,11 +75,11 @@ export default function Chat() {
         activeSessionId={activeSessionId}
         onCreateNewChat={createNewChat}
         onSwitchSession={switchSession}
-        onDeleteSession={deleteSession}
+        onDeleteSession={handleDeleteSession}
       />
       
       {/* Header */}
-      <header className="mobile-header sticky top-0 z-30 py-3 px-4 flex items-center">
+      <header className="mobile-header py-3 px-4 flex items-center">
         <div className="ml-8 flex items-center space-x-3">
           <div className="relative group">
             <div className="absolute inset-0 rounded-full blur-md bg-primary/30 group-hover:bg-primary/40 transition-colors"></div>

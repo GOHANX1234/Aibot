@@ -128,7 +128,7 @@ export default function ChatSidebar({
                 <div 
                   key={session.id}
                   className={cn(
-                    "chat-item p-2 text-sm rounded-lg flex items-center gap-2 cursor-pointer",
+                    "chat-item p-2 text-sm rounded-lg flex items-center gap-2 cursor-pointer group",
                     activeSessionId === session.id && "active"
                   )}
                   onClick={() => handleSwitchSession(session.id)}
@@ -143,11 +143,14 @@ export default function ChatSidebar({
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="h-7 w-7 opacity-0 group-hover:opacity-100 hover:bg-destructive/10 hover:text-destructive"
+                    className="h-7 w-7 md:opacity-0 opacity-70 group-hover:opacity-100 hover:bg-destructive/20 hover:text-destructive transition-all bg-black/20"
                     onClick={(e) => {
                       e.stopPropagation();
-                      onDeleteSession(session.id);
+                      if (confirm('Are you sure you want to delete this chat?')) {
+                        onDeleteSession(session.id);
+                      }
                     }}
+                    aria-label="Delete chat"
                   >
                     <Trash2 className="h-3.5 w-3.5" />
                     <span className="sr-only">Delete</span>
