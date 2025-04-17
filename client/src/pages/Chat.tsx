@@ -135,13 +135,13 @@ export default function Chat() {
                   "Write me a short story"
                 </button>
                 <button 
-                  onClick={() => handleSendMessage("Show me a JavaScript code example for fetching API data")}
+                  onClick={() => handleSendMessage("What is Ai and How to use Ai for helping myself?")}
                   className="p-3 text-sm border border-primary/20 rounded-lg bg-black/40 hover:bg-primary/10 hover:border-primary/50 text-left transition-all group flex items-center"
                 >
                   <span className="bg-primary/20 rounded-full p-1.5 mr-2 group-hover:bg-primary/30 transition-colors">
                     <Sparkles className="h-4 w-4 text-primary/90" />
                   </span>
-                  "Show me a JavaScript code example for fetching API data"
+                  "What is Ai and How to use Ai for helping myself?"
                 </button>
                 <button 
                   onClick={() => handleSendMessage("What's the difference between X1, X2, and X3 models?")}
