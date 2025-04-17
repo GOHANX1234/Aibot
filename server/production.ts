@@ -14,11 +14,11 @@ async function startServer() {
   await registerRoutes(app);
 
   // Serve static files from the frontend build directory
-  app.use(express.static(path.join(__dirname, '../client')));
+  app.use(express.static(path.join(__dirname, '../public')));
   
   // For any other request, send the index.html
   app.get('*', (req: Request, res: Response) => {
-    res.sendFile(path.join(__dirname, '../client/index.html'));
+    res.sendFile(path.join(__dirname, '../public/index.html'));
   });
 
   // Error handling middleware
