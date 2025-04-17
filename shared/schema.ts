@@ -40,4 +40,5 @@ export type SendMessageRequest = z.infer<typeof sendMessageSchema>;
 export type SendMessageResponse = {
   response: string;
   model: string;
+  hasCode?: boolean;
 };
