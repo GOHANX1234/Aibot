@@ -1,5 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import path from 'path';
+import { Server } from 'http';
 import { registerRoutes } from './routes';
 import { fileURLToPath } from 'url';
 
@@ -29,10 +30,12 @@ async function startServer() {
     });
   });
 
-  const PORT = process.env.PORT || 5000;
-  app.listen(PORT, '0.0.0.0', () => {
+  const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 5000;
+  const server = app.listen(PORT, () => {
     console.log(`Server running on port ${PORT} in ${process.env.NODE_ENV} mode`);
   });
+  
+  return server;
 }
 
 startServer().catch(err => {
